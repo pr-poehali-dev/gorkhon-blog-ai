@@ -1,44 +1,169 @@
+import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { Label } from '@/components/ui/label';
 import Icon from '@/components/ui/icon';
 
 const Index = () => {
+  const [selectedStory, setSelectedStory] = useState<number | null>(null);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedGalleryImage, setSelectedGalleryImage] = useState<number | null>(null);
+  const [contactForm, setContactForm] = useState({ name: '', email: '', message: '' });
+  const [isContactSubmitted, setIsContactSubmitted] = useState(false);
+
   const stories = [
     {
       title: "Утро в Горхоне",
       excerpt: "Сегодня я проснулась под звуки пения птиц за окном. В нашем поселке так тихо и спокойно, что слышно каждый шорох листвы...",
+      fullContent: "Сегодня я проснулась под звуки пения птиц за окном. В нашем поселке так тихо и спокойно, что слышно каждый шорох листвы. За окном рассвет окрашивает небо в нежные розовые оттенки, а воздух наполнен свежестью утренней росы.\n\nВыйдя на крыльцо с чашкой горячего чая, я наблюдаю, как поселок медленно просыпается. Мой сосед Иван Петрович уже работает в огороде - он всегда встает с первыми лучами солнца. Его жена Анна машет мне рукой из окна кухни.\n\nЭто особенное время дня, когда Горхон показывает всю свою красоту. Березы шепчут на ветру, где-то вдалеке мычит корова, а дым из печных труб создает уютную картину сельской жизни. Именно в такие моменты я понимаю, как мне повезло жить в этом удивительном месте.",
       date: "15 августа 2025",
       readTime: "3 мин"
     },
     {
       title: "Бабушкины рецепты",
       excerpt: "Моя соседка Мария Ивановна поделилась секретом приготовления настоящих бурятских позов. Это такая семейная традиция...",
+      fullContent: "Моя соседка Мария Ивановна поделилась секретом приготовления настоящих бурятских позов. Это такая семейная традиция, которая передается из поколения в поколение.\n\n'Александра, дорогая,' - говорит она, замешивая тесто своими натруженными руками, - 'главное в позах - это душа. Тесто должно быть нежным, как облако, а начинка сочной.'\n\nЯ внимательно записываю каждое движение: как она раскатывает тесто, как формирует мешочки, оставляя сверху маленькое отверстие для пара. Мария Ивановна рассказывает, что этому рецепту уже больше ста лет - его передала ей свекровь, а той - ее бабушка.\n\nКогда позы готовы и стоят на столе, выделяя ароматный пар, мы садимся пить чай. И в этот момент я понимаю - это не просто еда. Это связь времен, традиция, которая объединяет людей в нашем маленьком поселке.",
       date: "12 августа 2025", 
       readTime: "5 мин"
     },
     {
       title: "История нашего дома",
       excerpt: "Каждый дом в Горхоне хранит свою историю. Наш был построен еще в 1960-х годах моим дедушкой...",
+      fullContent: "Каждый дом в Горхоне хранит свою историю. Наш был построен еще в 1960-х годах моим дедушкой Николаем Степановичем. Тогда в поселке только начинали появляться новые семьи.\n\nДедушка рассказывал, что строил дом всей деревней - так было принято тогда. Соседи помогали заготавливать бревна, поднимать стены, крыть крышу. За один день могли поставить целый сруб.\n\nВ нашем доме до сих пор сохранилась та самая русская печь, которую сложил мастер из соседнего села. Зимними вечерами она согревает не только комнаты, но и души. На ней бабушка пекла хлеб, сушила варежки внуков.\n\nТеперь этот дом - мой. И я чувствую ответственность за то, чтобы сохранить его историю, передать следующим поколениям ту теплоту и уют, которые создавали мои предки. Ведь дом - это не просто стены, это память семьи.",
       date: "10 августа 2025",
+      readTime: "4 мин"
+    },
+    {
+      title: "Весенний праздник в поселке",
+      excerpt: "Каждую весну в Горхоне мы отмечаем приход тепла большим общим праздником...",
+      fullContent: "Каждую весну в Горхоне мы отмечаем приход тепла большим общим праздником. В этом году снег растаял особенно рано, и мы решили устроить празднование в конце марта.\n\nВсе жители собираются на центральной площади поселка. Женщины готовят традиционные блюда: позы, шурпу, блины с медом. Мужчины разжигают большой костер и устанавливают столы.\n\nДети бегают с воздушными шариками, а старшее поколение рассказывает истории о том, как праздновали весну их родители. Звучат песни на бурятском языке, и даже те, кто не знает слов, подпевают мелодии.\n\nВечером мы все вместе встречаем закат, и я понимаю - вот оно, настоящее счастье. Простое человеческое общение, когда все равны, все рады друг другу. Такие моменты делают нашу маленькую общину по-настоящему сплоченной.",
+      date: "5 августа 2025",
       readTime: "4 мин"
     }
   ];
 
+  const galleryImages = [
+    { 
+      src: "/img/627ed5b1-40fa-42b0-a87f-91aca4483041.jpg", 
+      title: "Панорама поселка Горхон",
+      description: "Вид на наш уютный поселок с холма"
+    },
+    { 
+      src: "/img/50835305-84e5-4d65-b519-7abe3cb4dc62.jpg", 
+      title: "Александра в домашней обстановке",
+      description: "За работой над новыми историями"
+    },
+    { 
+      src: "/img/88985bc6-57a6-49f5-be61-0e8e4d9c30ed.jpg", 
+      title: "Осенние пейзажи Бурятии",
+      description: "Золотая осень в наших краях"
+    },
+    { 
+      src: "/img/e5be0e6f-fd3d-4b54-9e6c-a413b76df406.jpg", 
+      title: "Традиционная архитектура",
+      description: "Деревянные дома с бурятскими мотивами"
+    }
+  ];
+
+  const filteredStories = stories.filter(story => 
+    story.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    story.excerpt.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    element?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  const handleContactSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log('Отправка сообщения:', contactForm);
+    setIsContactSubmitted(true);
+    setContactForm({ name: '', email: '', message: '' });
+    
+    setTimeout(() => setIsContactSubmitted(false), 3000);
+  };
+
   return (
     <div className="min-h-screen bg-beige">
       {/* Header */}
-      <header className="bg-white shadow-sm border-b border-wheat">
+      <header className="bg-white shadow-sm border-b border-wheat sticky top-0 z-50">
         <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center space-x-3">
             <Icon name="Home" className="text-warm" size={24} />
             <h1 className="text-xl font-bold text-warm">Блог Александры</h1>
           </div>
           <nav className="hidden md:flex items-center space-x-6">
-            <a href="#about" className="text-gray-600 hover:text-warm transition-colors">О поселке</a>
-            <a href="#stories" className="text-gray-600 hover:text-warm transition-colors">Истории</a>
-            <a href="#gallery" className="text-gray-600 hover:text-warm transition-colors">Галерея</a>
-            <a href="#contact" className="text-gray-600 hover:text-warm transition-colors">Контакты</a>
+            <button 
+              onClick={() => scrollToSection('about')}
+              className="text-gray-600 hover:text-warm transition-colors"
+            >
+              О поселке
+            </button>
+            <button 
+              onClick={() => scrollToSection('stories')}
+              className="text-gray-600 hover:text-warm transition-colors"
+            >
+              Истории
+            </button>
+            <button 
+              onClick={() => scrollToSection('gallery')}
+              className="text-gray-600 hover:text-warm transition-colors"
+            >
+              Галерея
+            </button>
+            <button 
+              onClick={() => scrollToSection('contact')}
+              className="text-gray-600 hover:text-warm transition-colors"
+            >
+              Контакты
+            </button>
           </nav>
+          
+          {/* Mobile menu */}
+          <div className="md:hidden">
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button variant="outline" size="sm">
+                  <Icon name="Menu" size={16} />
+                </Button>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>Навигация</DialogTitle>
+                </DialogHeader>
+                <div className="flex flex-col space-y-4">
+                  <button 
+                    onClick={() => scrollToSection('about')}
+                    className="text-left text-gray-600 hover:text-warm transition-colors"
+                  >
+                    О поселке
+                  </button>
+                  <button 
+                    onClick={() => scrollToSection('stories')}
+                    className="text-left text-gray-600 hover:text-warm transition-colors"
+                  >
+                    Истории
+                  </button>
+                  <button 
+                    onClick={() => scrollToSection('gallery')}
+                    className="text-left text-gray-600 hover:text-warm transition-colors"
+                  >
+                    Галерея
+                  </button>
+                  <button 
+                    onClick={() => scrollToSection('contact')}
+                    className="text-left text-gray-600 hover:text-warm transition-colors"
+                  >
+                    Контакты
+                  </button>
+                </div>
+              </DialogContent>
+            </Dialog>
+          </div>
         </div>
       </header>
 
@@ -54,11 +179,18 @@ const Index = () => {
                 и теплых встреч с соседями.
               </p>
               <div className="flex items-center space-x-4">
-                <Button className="bg-warm hover:bg-primary/90 text-white">
+                <Button 
+                  onClick={() => scrollToSection('stories')}
+                  className="bg-warm hover:bg-primary/90 text-white"
+                >
                   <Icon name="BookOpen" size={16} className="mr-2" />
                   Читать истории
                 </Button>
-                <Button variant="outline" className="border-warm text-warm hover:bg-warm hover:text-white">
+                <Button 
+                  onClick={() => scrollToSection('gallery')}
+                  variant="outline" 
+                  className="border-warm text-warm hover:bg-warm hover:text-white"
+                >
                   <Icon name="Camera" size={16} className="mr-2" />
                   Смотреть фото
                 </Button>
@@ -126,14 +258,26 @@ const Index = () => {
         <div className="max-w-6xl mx-auto px-4">
           <div className="text-center mb-12">
             <h3 className="text-3xl font-bold text-warm mb-4">Последние истории</h3>
-            <p className="text-gray-700 max-w-2xl mx-auto">
+            <p className="text-gray-700 max-w-2xl mx-auto mb-8">
               Каждый день в Горхоне происходит что-то особенное. Делюсь с вами 
               моими наблюдениями и встречами с замечательными людьми нашего поселка.
             </p>
+            
+            {/* Search */}
+            <div className="max-w-md mx-auto relative">
+              <Input
+                type="text"
+                placeholder="Поиск по историям..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pl-10"
+              />
+              <Icon name="Search" className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={16} />
+            </div>
           </div>
           
-          <div className="grid md:grid-cols-3 gap-6">
-            {stories.map((story, index) => (
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filteredStories.map((story, index) => (
               <Card key={index} className="hover:shadow-lg transition-shadow duration-300 bg-white border-wheat">
                 <CardHeader>
                   <div className="flex items-center justify-between text-sm text-gray-500 mb-2">
@@ -146,16 +290,48 @@ const Index = () => {
                       {story.readTime}
                     </span>
                   </div>
-                  <CardTitle className="text-warm hover:text-primary transition-colors cursor-pointer">
+                  <CardTitle className="text-warm">
                     {story.title}
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <p className="text-gray-600 mb-4 line-clamp-3">{story.excerpt}</p>
-                  <Button variant="ghost" className="text-warm hover:text-primary hover:bg-wheat p-0">
-                    Читать полностью 
-                    <Icon name="ArrowRight" size={14} className="ml-1" />
-                  </Button>
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <Button 
+                        variant="ghost" 
+                        className="text-warm hover:text-primary hover:bg-wheat p-0"
+                        onClick={() => setSelectedStory(index)}
+                      >
+                        Читать полностью 
+                        <Icon name="ArrowRight" size={14} className="ml-1" />
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
+                      <DialogHeader>
+                        <DialogTitle className="text-warm text-xl">{story.title}</DialogTitle>
+                        <div className="flex items-center space-x-4 text-sm text-gray-500">
+                          <span className="flex items-center">
+                            <Icon name="Calendar" size={14} className="mr-1" />
+                            {story.date}
+                          </span>
+                          <span className="flex items-center">
+                            <Icon name="Clock" size={14} className="mr-1" />
+                            {story.readTime}
+                          </span>
+                        </div>
+                      </DialogHeader>
+                      <div className="mt-4">
+                        <div className="prose prose-lg">
+                          {story.fullContent.split('\n\n').map((paragraph, idx) => (
+                            <p key={idx} className="text-gray-700 leading-relaxed mb-4">
+                              {paragraph}
+                            </p>
+                          ))}
+                        </div>
+                      </div>
+                    </DialogContent>
+                  </Dialog>
                 </CardContent>
               </Card>
             ))}
