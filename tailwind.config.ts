@@ -18,39 +18,47 @@ export default {
 			}
 		},
 		extend: {
+			fontFamily: {
+				sans: ['Merriweather', 'serif'],
+				serif: ['Merriweather', 'serif'],
+			},
 			colors: {
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
 				ring: 'hsl(var(--ring))',
 				background: 'hsl(var(--background))',
 				foreground: 'hsl(var(--foreground))',
+				warm: '#8B4513',
+				forest: '#228B22',
+				wheat: '#F5DEB3',
+				beige: '#F5F5DC',
 				primary: {
-					DEFAULT: 'hsl(var(--primary))',
-					foreground: 'hsl(var(--primary-foreground))'
+					DEFAULT: '#8B4513',
+					foreground: '#FFFFFF'
 				},
 				secondary: {
-					DEFAULT: 'hsl(var(--secondary))',
-					foreground: 'hsl(var(--secondary-foreground))'
+					DEFAULT: '#228B22',
+					foreground: '#FFFFFF'
 				},
 				destructive: {
 					DEFAULT: 'hsl(var(--destructive))',
 					foreground: 'hsl(var(--destructive-foreground))'
 				},
 				muted: {
-					DEFAULT: 'hsl(var(--muted))',
-					foreground: 'hsl(var(--muted-foreground))'
+					DEFAULT: '#F5F5DC',
+					foreground: '#696969'
 				},
 				accent: {
-					DEFAULT: 'hsl(var(--accent))',
-					foreground: 'hsl(var(--accent-foreground))'
+					DEFAULT: '#F5DEB3',
+					foreground: '#2F4F4F'
 				},
 				popover: {
 					DEFAULT: 'hsl(var(--popover))',
 					foreground: 'hsl(var(--popover-foreground))'
 				},
 				card: {
-					DEFAULT: 'hsl(var(--card))',
-					foreground: 'hsl(var(--card-foreground))'
+					DEFAULT: '#FFFFFF',
+					foreground: '#2F4F4F'
 				},
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
